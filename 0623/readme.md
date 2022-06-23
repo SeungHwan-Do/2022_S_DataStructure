@@ -182,3 +182,87 @@ int main(void)
   return 0;
 }
 ```
+## 이차원 배열 선언 초기화
+### 이중 중괄호 또는 중괄호
+ - 중괄호를 중첩되게 이용하는 방법
+ - 일차원 배열과 같이 하나의 중괄호로 모든 초기값을 쉼표로 분리하는 방법
+ - 첫 번째 대괄호 내부의 행의 크기는 명시하지 않을 수 있음
+ - 그러나 두 번째 대괄호 내부의 열의 크기는 반드시 명시
+```c
+int score[2][3] = {[30, 44, 67}, {87, 43, 56}};
+int score[2][3] = {30, 44, 67, 87, 43, 56};
+int score[][3] = {30, 44, 67, 87, 43, 56};
+```
+### 명시되지 않은 행의 크기
+ - ( (배열원소수) / (열수) )에서, 소수점인 경우 무조건 올림하면 행의 수
+ - 행 크기는 생략할 수 있어도 열 크기는 생략할 수 없다는 것에 주의
+ ```c
+ int a[2][4] = {10, 30, 40, 50, 1, 3, 0, 0};
+ int a[2][4] = {10, 30, 40, 50, 1, 3};
+ int a[][4] = {10, 30, 40, 50, 1, 3};
+ int a[2][4] = {{10, 30, 40, 50},{1, 3}};
+ int a[][4] = {{10, 30, 40, 50},{1, 3}};
+ ```
+ ## 함수에서 배열 전달
+ ### 배열 전체 전달
+ - 함수의 매개변수로 배열을 전달한다면 한 번에 여러 개의 변수를 전달하는 효과
+ - double ary[5]보다는 double ary[]라고 기술하는 것을 권장
+ - 실제로 함수 내부에서 실매개변수로 전달되는 배열 크기를 알 수 없음
+ - 그러므로 배열 크기를 두 번째 인자로 사용
+```c
+double sum(double ary[], int n);
+//double sum(double [],int); //가능
+...
+double data[] = {2.3, 3.4, 4.5, 6.7, 9.2};
+
+...sum(data, 5);
+```
+```c
+double sum(double ary[], int n)
+{
+ int i=0;
+ double total = 0.0;
+ for(i=0; i<n; i++)
+  total += ary[i];
+  
+ return total;
+}
+```
+## 배열 크기 계산
+연산자 sizeof를 이용하여 배열 크기를 계산
+#### 배열 크기(배열원소수) = sizeof(배열이름) / sizeof(배열원소)
+#### int arraysize = sizeof(data) / sizeof(data[0]);
+```c
+//이차원 배열값을 모두 더하는 함수원형
+double sum(double data[][3], int, int);
+//이차원 배열값을 모두 출력하는 함수원형
+void printarray(double data[][3], int, int);
+...
+double x[][3] = { {1, 2, 3}, {7, 8, 9}, {4, 5, 6}, {10, 11, 12} };
+
+int rowsize = sizeof(x) / sizeof(x[0]);
+int colsize = sizeof(x[0]) / sizeof(x[0][0]);
+
+printarray(x, rowsize, colsize);
+...
+sum(x, rowsize, colsize);...
+...
+```
+```c
+//이차원 배열값을 모두 출력하는 함수
+void printarray(double area[][3], int rowsize, int colsize)
+{
+ ...
+}
+
+//이차원 배열값을 모두 더하는 함수
+
+double sum(double data[][3], int rowsize, int colsize)
+{
+ ...
+  for(i=0; i<rowsize; i++)
+   for(j=0, j<colsize; j++)
+    total += data[i][j];
+   return total;
+}
+```
