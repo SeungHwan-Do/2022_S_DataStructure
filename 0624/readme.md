@@ -404,4 +404,96 @@ for (i=0; i<aryLength; i++)
  }
  ```
  
+## 함수 포인터
+### 함수 주소 저장 변수
+함수의 주소값을 저장하는 포인터 변수
+#### 반환자료형 (\*함수포인터변수이름)(자료형1매개변수이름, 자료형2매개변수이름,...);
+또는
+#### 반환자료형 (\*함수포인터변수이름)(자료형1, 자료형2,...);
+```c
+void add(double*, double, double);
+void subtract(double*, double, double);
+...
+ void (*pf)(double* double, double);
+ void (*pf1)(double *z, double x, double y) = add;
+ void (*pf2)(double *z, double x, double y) = subtract;
+ pf2 = add;
+```
+## 함수 포인터를 이용한 함수 호출
+### 일반 함수 호출과 동일
+```c
+double m, n, result = 0;
+void (*pf)(double*, double, double);
+....
+pf = add;
+pf(&result, m, n); //add(&result, m, n);
+```
+```c
+void add(double *z, double x, double y)
+{
+ *z = x + y;
+}
+```
+## 함수 포인터 이용
+함수 주소를 저장하는 함수 포인터의 선언과 이용
+```c 
+#include <stdio.h>
+
+void add(double*, double, double);
+void subtract(double*, double, double);
+
+int main(void)
+{
+ double m, n, result = 0;
+ void (*pf)(double*, double, double) = NULL;
  
+ printf("+, -를 수행할 실수 2개를 입력하세요. >>");
+ scanf("%lf %lf, &m, &n);
+ 
+ //사칙연산 수행
+ pf = addl
+ pf(&result, m, n); // add(&result, m, n);
+ printf("pf = %p, 함수 add() 주소 = %p\n", pf, add);
+ printf("더하기 수행: %lf + %lf == %lf\n\n", m, n, result);
+ 
+ pf = subtract;
+ pf(&result, m, n); // subtract(&result, m, n);
+ printf("pf = %p, 함수 subtract()주소 = %p\n", pf, subtract);
+ printf("빼기 수행: %lf - %lf == %lf\n\n", m, n, result);
+ 
+ return 0;
+}
+
+void add(double *z, double x, double y)
+{
+ *z = x + y;
+}
+void subtract(double *z, double x, double y)
+{
+ *z = x - y;
+}
+```
+## 함수 포인터 배열
+### 함수 포인터를 위한 배열 선언과 사용
+#### 반환자료형 (\*배열이름[배열크기])(자료형1매개변수이름, 자료형2매개변수이름,...);
+또는
+#### 반환자료형 (\*배열이름[배열크기])(자료형1, 자료형2,...);
+```c
+void add(double*, double, double);
+void subtract(double*, double, double);
+void multiply(double*, double, double);
+void devide(double*, double, double);
+ ...
+ void (*fpary[4])(double*, double, );
+ fpary[0] = add;
+ fpary[1] = subtract;
+ fpary[2] = multiply;
+ fpary[3] = devide;
+ ```
+ 또는
+ ```c
+ void (*fpary[4])(double*, double, double) = 
+  {add, subtract, multiply, devide};
+ ```
+ 
+
