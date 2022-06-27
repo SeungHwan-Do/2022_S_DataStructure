@@ -52,3 +52,113 @@ struct selfref {
 <br>(삭제하려는 노드“C++”를 포인터 변수에 저장)
 - 노드“C”의 링크를 삭제하려는 노드“C++”의 링크 노드값으로 저장 ( 삭제할려는 노드가 가리키는 노드를 저장)
 - 마지막으로 삭제 노드 “C++”를 메모리에서 제거
+## 사용자 정의 헤더파일 생성과 이용
+### 헤더파일 생성
+ #### 현재 프로젝트의 [헤더 파일]
+- 오른쪽 버튼을 눌러 나온 메뉴 [추가/새항목]을 선택
+#### [새 항목 추가] 대화상자
+- 헤더 파일을 선택하고 사용자 헤더 파일의 이름 linkedlist를 입력
+### 헤더파일 이용
+ - 지시자 #include에서 큰따옴표를 사용해서 사용자 정의 헤더 파일을 삽입
+## 헤더파일과 main() 함수 구현
+### linkedlist.h
+- 연결 리스트를 생성하고 출력하는 프로그램을 위한 헤더 파일
+### linkedlist.c
+- 연결 리스트를 생성하고 출력하는 메인 프로그램
+```c
+linkedlist.h
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct linked_list {
+ char *name;
+ struct linked_list *next;
+};
+typedef struct linked_list NODE;
+typedef NODE * LINK;
+```
+```c
+linkedlist.c
+#include "linkedlist.h"
+
+LINK createNode(char *name);
+LINK append(LINK head, LINK cur);
+int printList(LINK head);
+
+int main(void)
+{
+ char name[30];
+ LINK head = NULL;
+ LINK cur;
+ 
+ printf("이름을 입력하고 Enter를 누르세요. >> \n");
+ whule (gets_s(name, 30) != NULL)
+ {
+  cur = createNode(name);
+  if(cur == NULL) exit(1);
+   head = append (head,cur);
+  printList(head);
+ }
+ 
+ return 0;
+}
+```
+## 함수 구현
+### 함수 구현 소스 listlib.c
+- 연결 리스트를 생성하고, 추가, 출력하는 함수 3개를 구현한 소스
+```c
+#include "linkedlist.h"
+
+LINK createNote(char *name)
+{
+ LINK cur;
+ cur = (NODE *) malloc(sizeof(NODE));
+ if (cur == NULL)
+ {
+  pritnf("노드 생성을 위한 메모리 할당에 문제가 있습니다.\n");
+  return NULL;
+ }
+ //언어 이름을 저장할 문자 배열을 동적 할당하여 name에 저장
+ cur->name = (char *)malloc(sizeof(char) * (strlen(name)+1));
+ strcpy(cur->name, name);
+ cur->next = NULL;
+ 
+ return cur;
+}
+
+//노드를 추가하는 함수
+LINK append(LINK head, LINK cur)
+{
+ LINK nextNode = head;
+ if( head == NULL)
+  {
+   head = cur;
+   return head;
+  }
+  while (nextNode->next != NULL)
+  {
+   nextNode = nextNode->next;
+   }
+  nextNode->next = cur;
+  
+  return head;
+}
+
+//연결 리스트의 모든 노드 출력 함수
+int printlist(LINK head)
+{
+ int cnt =0;
+ LINK nextNode = head;
+ while (nextNode != NULL)
+ {
+  printf("%3d번째 노드는 %s\n", ++cnt, nextNode->name);
+  nextNode = nextNode->next;
+ }
+ 
+ return cnt;
+}
+```
+## 전처리 지시자 종류
+### \#으로 시작하는 전처리 지시어
+![image](https://user-images.githubusercontent.com/79446573/175972945-4ab826c7-db59-46d6-b8a9-1da50c38314b.png)
