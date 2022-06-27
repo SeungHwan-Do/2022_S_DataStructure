@@ -40,7 +40,7 @@
  double *prtdouble;
  ```
  보다는 전부
- ```
+ ```c
  int *ptrint;
  ```
  
@@ -352,6 +352,10 @@ for( i = 0; i<ROW ; i++)
  }
  printf("\n");
 }
+```
+## 다양한 배열 원소으 참조 방법
+### 포인터 상수 : point
+### 포인터 변수 : address
 ```c
 int i, sum =0;
 int point[] = {95, 88, 76, 54, 85, 33, 65, 78, 99, 82};
@@ -366,6 +370,38 @@ for (i=0; i<aryLength; i++)
 for (i=0; i<aryLength; i++)
  sum += *(point++); // 오류
  ```
+ ## 함수에서의 배열 전달
+ ### 함수 형식 매개변수에서 배열 사용
+ 두 개 모두 같은 의미로 모두 사용이 가능하다.
+ ```c 
+ int sumary(int ary[], int SIZE)
+ {
+  ...
+ }
+ int sumaryf(int *ary, int SIZE)
+ {
+  ...
+ }
+ ```
+ ```c
+ for (i = 0; i < SIZE ; i++)
+ {
+  sum += ary[i];
+ }
+ for (i=0 ; i < SIZE ; i++)
+ {
+  sum += *(ary++);
+ }
+ ```
+ ```c
+ for ( i=0 ; i < SIZE ; i++)
+ {
+  sum += *(ary + i);
+ }
+ for (i = 0; i < SIZE, i++)
+ {
+  sum += *ary++;
+ }
+ ```
  
-
  
