@@ -149,3 +149,79 @@ lecture *p = &os;
  - 접근연산자(.)가 간접연산자 (\*)보다 우선순위가 빠르므로
  - p가 포인터이므로 p.name은 문법 오류가 발생
  ![image](https://user-images.githubusercontent.com/79446573/176374639-597ebc0b-d140-4287-b7e6-4bd6d703b8df.png)
+## 열거형
+### enum
+ - 정수형 상수 목록 집합을 정의하는 자료형
+ - enum 다음에 열거형 태그명을 기술하고 중괄호를 사용하여 정수형 상수 목록을 쉼표로 분리하여 기술
+ - 정의된 열거형은 새로운 자료형으로 사용 가능
+ - 열거형은 내부적으로 int형에 해당
+```c
+enum 열거형태그명 {열거형1, 열거형2, 열거형3, ...};
+enum 열거형태그명 변수명;
+```
+### 열거형태그 이름이 생략된 경우
+####  열거형을 정의하면서 변수를 선언한다면 열거형 태그 이름을 생략 가능
+ - 그러나 동일한 자료형의 변수를 더 이상 선언 불가능
+### typedef 사용 자료형 재정의
+```c
+enum day7 {sun, mon, tue, wed, thu, fri, sat};
+typedef enum day7 day;
+day today = fri;
+```
+## 열거형 사용
+- 열거형 정의와 변수 선언 및 사용
+- 가계부 항목을 열거형 expense에 정의
+- 자료형 enum expense형인 변수 exptype은 상수인 entertainment를 대입하여 반복문에 사용
+- 열거형 변수인 exptype을 배열의 첨자로 이용하면 보다 편리하게 관련된 배열 원소 참조가 가능함
+```c
+#include <stdio.h>
+
+enum expense {entertainment, automobile, utilities, food, clothing, miscellaneous};
+typedef enum expense expense;
+
+char *exp[] = {"문화비", "자동차유지비", "공과금", "식비", "의생활비", "기타"};
+
+int main(void)
+{
+ expense exptype;
+ int money[] = {240000, 340000, 400000, 500000, 300000, 300000, 2500000};
+ 
+ puts("2012년 5월 지출 내역\n");
+ for(exptype = entertainment; exptype <= miscellaneous; exptype++)
+  printf("%16s: %8d\n", exp[exptype], money[exptype]);
+  
+ printf("\n");
+ 
+ return 0;
+}
+```
+## 열거형 상수 이용
+- 열거형 상수값의 지정과 출력
+```c
+#include <stdio.h>
+
+int main(void)
+{
+ enum color {yellow=3, red, blue, magenta, green} col;
+ 
+ for (col = yellow; col <= green; col++)
+  printf("%2d", col);
+ printf("\n");
+ 
+ return 0;
+}
+```
+## 열거형 상수 지정
+### 상수목록에서 정수를 지정
+#### 상수 목록에 정수값을 부분적으로 직접 지정 가능
+ - 성수값을 지정한 상수는 그 값으로, 지정되지 않은 상수는 그 이후로 1씩 증가한 상수값으로 정의
+```c
+enum shape { circle, tri=3, rect=4, star=7, dia};
+typedef enum shape shape;
+
+ enum pl {c=1972, cpp=1983, java=1995, cs=2000};
+ typedef enum pl plang;
+ 
+enum bool {false, true};
+typedef enum bool boolean;
+```
