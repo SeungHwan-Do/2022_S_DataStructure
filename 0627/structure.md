@@ -74,5 +74,78 @@ struct account
   
  }
  ```
- 
- 
+
+## 구조체 멤버로 사용되는 구조체
+### 구조체 멤버로 다른 구조체 사용
+ - 구조체 멤버로 이미 정의된 다른 구조체 형 변수와 구조체 포인터 변수를 사용 가능
+## 자료형 재정의 구문
+### 키워드 typedef
+ - 이미 사용되는 자료형을 다른 새로운 자료형 이름으로 재정의
+```c
+typedef 기존자료형이름 새로운자료형1, 새로운자료형2, ...;
+typedef int profit;
+typedef unsigned int budget;
+typedef unsigned in size_t;
+```
+## 자료형 재정의 목적
+### 프로그램의 시스템 간 호환성과 편의성
+#### 시스템마다 자료형의 크기가 달라 문제 발생
+ - 터보 C++ 컴파일러에서 자료형 int는 저장공간의 크기가 2바이트
+ - Visual C++에서는 4바이트
+#### typedef를 사용하여 새로운 자료형 myint를 정의하여 사용
+
+## 구조체 자료형 재정의
+### struct를 제거한 새로운 자료형
+ - typedef 사용하여 구조체를 한단어의 새로운 자료형으로 정의하면 사용하기에 편리
+ - typedef 사용하여 구조체 struct date를 date로 재정의 가능
+ - date가 아닌 datetype 등 다른 이름으로도 재정의 가능
+### 구조체 정의와 typedef를 함께 사용 가능
+ - 구조체 자료형 software 정의
+```c
+struct date
+{
+ int year;
+ int month;
+ int day;
+};
+
+typedef struct date date; // 자료형인 date는 struct date와 함께 동일한 자료형으로 이용이 가능하다.
+
+typedef struct
+{
+ char title[30];
+ char company[30];
+ char kinds[30];
+ date release;
+ }software; // software는 변수가 아니라 새로운 자료형이다
+```
+
+## 구조체 포인터
+### 구조체 포인터 변수
+ - 구조체의 주소값을 저장할 수 있는 변수
+ - 다른 포인터 변수와 사용 방법이 동일
+```c
+struct lecture
+{
+ char name[20];
+ int type;
+ int credit;
+ int hours;
+};
+typedef struct lecture lecture;
+lecture *p;
+```
+```c
+lecture os = {"운영체제", 2, 3, 3};
+lecture *p = &os;
+```
+## 포인터 변수의 구조체 멤버 접근
+### 포인터 p의 구조체 멤버 접근연산자 ->
+ - p->name과 같이 사용
+ - 포인터 p가 가리키는 구조체 변수의 멤버 name에 접근하는 연산식
+ - (\*p).name으로도 사용 가능
+### 연산식 \*p.name과 구분
+#### \*(p.name) 의미
+ - 접근연산자(.)가 간접연산자 (\*)보다 우선순위가 빠르므로
+ - p가 포인터이므로 p.name은 문법 오류가 발생
+ ![image](https://user-images.githubusercontent.com/79446573/176374639-597ebc0b-d140-4287-b7e6-4bd6d703b8df.png)
